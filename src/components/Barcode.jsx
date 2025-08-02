@@ -1,11 +1,17 @@
-import React from 'react'
+import JsBarcode from 'jsbarcode';
+import { useEffect, useRef } from 'react';
 
-function Barcode() {
-  return (
-    <div>
-      <h1>Barcode</h1>
-    </div>
-  )
-}
-
-export default Barcode
+export default function Barcode({ value }) {
+  const svgRef = useRef();
+  useEffect(() => {
+    if (svgRef.current && value) {
+      JsBarcode(svgRef.current, value, {
+        format: 'CODE128',
+        displayValue: true,
+        height: 50,
+        width: 2,
+      });
+    }
+  }, [value]);
+  return <svg ref={svgRef}></svg>;
+} 
